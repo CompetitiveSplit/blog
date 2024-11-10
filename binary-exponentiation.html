@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-11-10 Sun 17:01 -->
+<!-- 2024-11-10 Sun 17:09 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Exponenciación Binaria</title>
@@ -627,9 +627,9 @@ document.location.href = orgsource;
 <body>
 <div id="content" class="content">
 <h1 class="title">Exponenciación Binaria</h1>
-<div id="outline-container-org60f4a98" class="outline-2">
-<h2 id="org60f4a98">¿Cómo calcular \(a^{n}\) eficientemente?</h2>
-<div class="outline-text-2" id="text-org60f4a98">
+<div id="outline-container-org978dfce" class="outline-2">
+<h2 id="org978dfce">¿Cómo calcular \(a^{n}\) eficientemente?</h2>
+<div class="outline-text-2" id="text-org978dfce">
 <p>
 La manera más simple de hacerlo es por fuerza bruta, es decir, multiplicar \(a\) un número \(n\) de veces: \(a \cdot a \cdot a \cdot \dotsc \cdot a\). Si bien este método es válido, su complejidad temporal es de \(O(n)\). Es decir, si \(n = 100\), se necesitarían 100 multiplicaciones. Esto puede ser ineficiente para valores grandes de \(n\).
 </p>
@@ -662,9 +662,9 @@ Este sería el código en <a href="https://racket-lang.org/">Racket</a>:
 </div>
 </div>
 </div>
-<div id="outline-container-org5e4ece7" class="outline-2">
-<h2 id="org5e4ece7">Explicación de la función <code>mt/brute-pow</code></h2>
-<div class="outline-text-2" id="text-org5e4ece7">
+<div id="outline-container-org90c67e0" class="outline-2">
+<h2 id="org90c67e0">Explicación de la función <code>mt/brute-pow</code></h2>
+<div class="outline-text-2" id="text-org90c67e0">
 <ul class="org-ul">
 <li><b>Condicional</b>: <code>(cond ...)</code> evalúa condiciones en orden y ejecuta el bloque de código de la primera condición que sea verdadera.</li>
 <li><b>Base</b>: <code>(= exponente 0)=</code> Cuando el exponente es 0, la función devuelve 1, ya que cualquier número elevado a 0 es 1.</li>
@@ -693,9 +693,9 @@ a^3 = a \cdot (a \cdot (a \cdot 1)) = a \cdot a \cdot a
 </p>
 </div>
 </div>
-<div id="outline-container-orgf371f82" class="outline-2">
-<h2 id="orgf371f82">Caso 1: \( n \) es una potencia de 2</h2>
-<div class="outline-text-2" id="text-orgf371f82">
+<div id="outline-container-orge275b0a" class="outline-2">
+<h2 id="orge275b0a">Caso 1: \( n \) es una potencia de 2</h2>
+<div class="outline-text-2" id="text-orge275b0a">
 <p>
 En lugar de realizar multiplicaciones repetidas como en la versión de fuerza bruta, podemos aprovechar el hecho de que \( a^n \) para \( n \) como una potencia de 2 se puede descomponer en productos de potencias menores.
 </p>
@@ -718,9 +718,9 @@ Así, solo necesitamos <b><b>5 multiplicaciones</b></b> para llegar a \( a^{32} 
 </p>
 </div>
 </div>
-<div id="outline-container-org3290111" class="outline-2">
-<h2 id="org3290111">Caso 2: \( n \) no es una potencia de 2</h2>
-<div class="outline-text-2" id="text-org3290111">
+<div id="outline-container-orgd32bf47" class="outline-2">
+<h2 id="orgd32bf47">Caso 2: \( n \) no es una potencia de 2</h2>
+<div class="outline-text-2" id="text-orgd32bf47">
 <p>
 Supongamos que necesitamos calcular \( a^{19} \). Podemos descomponerlo como sigue:
 </p>
@@ -749,9 +749,9 @@ La complejidad sigue siendo \( O(\log(n)) \), mucho más eficiente que el enfoqu
 </p>
 </div>
 </div>
-<div id="outline-container-org086c381" class="outline-2">
-<h2 id="org086c381">Representación binaria del exponente \( n \)</h2>
-<div class="outline-text-2" id="text-org086c381">
+<div id="outline-container-org72f1907" class="outline-2">
+<h2 id="org72f1907">Representación binaria del exponente \( n \)</h2>
+<div class="outline-text-2" id="text-org72f1907">
 <p>
 Volvamos al cálculo de \( a^{19} \).
 </p>
@@ -807,19 +807,18 @@ La siguiente función recursiva muestra la misma idea:
 </p>
 
 <p>
-\[
-a<sup>n</sup> =
+\[ a^n =
+  \begin{cases}
+  1 & \text{si } n = 0, \\
+  \left(a^{\frac{n}{2}}\right)^2 & \text{si } n > 0 \text{ y es par}, \\
+  a \cdot \left(a^{\frac{n-1}{2}}\right)^2 & \text{si } n > 0 \text{ y es impar}.
+  \end{cases} \]
 </p>
-\begin{cases}
-1 & \text{si } n = 0, \\
-\left(a^{\frac{n}{2}}\right)^2 & \text{si } n > 0 \text{ y es par}, \\
-a \cdot \left(a^{\frac{n-1}{2}}\right)^2 & \text{si } n > 0 \text{ y es impar}.
-\end{cases}
 </div>
 </div>
-<div id="outline-container-orgadfa04e" class="outline-2">
-<h2 id="orgadfa04e">Implementación en Racket</h2>
-<div class="outline-text-2" id="text-orgadfa04e">
+<div id="outline-container-org76ed0d5" class="outline-2">
+<h2 id="org76ed0d5">Implementación en Racket</h2>
+<div class="outline-text-2" id="text-org76ed0d5">
 <div class="org-src-container">
 <pre class="src src-racket"><span style="font-weight: bold;">#lang</span> <span style="color: #383a42;">racket</span>
 <span style="color: #014980;">(</span><span style="font-weight: bold;">define</span> <span style="color: #a626a4;">(</span><span style="font-weight: bold;">mt/binary-pow</span> base exponente<span style="color: #a626a4;">)</span>
@@ -855,7 +854,7 @@ Mi github: <a href="https://github.com/CompetitiveSplit/">CompetitiveSplit</a>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Isaac Narvaez &lt;inarvaez.80@cuc.edu.co&gt;</p>
-<p class="date">Created: 2024-11-10 Sun 17:01</p>
+<p class="date">Created: 2024-11-10 Sun 17:09</p>
 </div>
 </body>
 </html>
